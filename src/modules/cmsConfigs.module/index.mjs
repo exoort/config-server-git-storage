@@ -68,8 +68,6 @@ export const useCmsConfigsModule = async (app) => {
   const setCmsConfigs = async () => {
     const configs = await getConfigs();
 
-    await app.redis.set('test', 'test')
-
     configs.forEach((cfgForDomain) => {
       const key = `${REDIS_NAMESPACE}:${cfgForDomain.domain}`;
 
