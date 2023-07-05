@@ -1,12 +1,12 @@
 FROM node:18-alpine
 
-ARG SERVER_PORT=3000
+ARG SERVER_PORT=3001
 ENV SERVER_PORT=$SERVER_PORT
 
 # Create and change to the app directory.
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update && apt-get install -y --no-install-recommends git
+RUN apk --no-cache add git
 
 # Copy application dependency manifests to the container image.
 # A wildcard is used to ensure both package.json AND package-lock.json are copied.
