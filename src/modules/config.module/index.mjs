@@ -25,6 +25,16 @@ const envSchema = {
       type: 'string',
       default: '',
     },
+    REDIS_PORT: {
+      type: 'number',
+    },
+    REDIS_PASSWORD: {
+      type: 'string',
+      default: undefined,
+    },
+    REDIS_HOST: {
+      type: 'string',
+    },
   },
 };
 
@@ -54,7 +64,23 @@ export const useConfigModule = async (app) => {
     get apiToken() {
       return app.config.API_TOKEN;
     },
+
+    get redis() {
+      return {
+        host:app.config.REDIS_HOST,
+        port: Number(app.config.REDIS_PORT),
+        password: app.config.REDIS_PASSWORD,
+      }
+    }
   });
+
+  if (!app.configModule.redis.host) {
+    throw new Error('Redis host required');
+  }
+
+  if (!app.configModule.redis.port) {
+    throw new Error('Redis port required');
+  }
 
   return app;
 };

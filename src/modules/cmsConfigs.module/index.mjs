@@ -1,12 +1,9 @@
 import { readdir, readFile } from "fs";
-import path from "path";
 import {gitClone} from "../../utils/commands.util.mjs";
 
 const pathToConfigs = `${process.cwd()}/cmsConfigs`;
 
 async function getFileContent(filePath) {
-  console.log('getFileContent', filePath)
-
   return new Promise((resolve, reject) => {
     readFile(`${pathToConfigs}/${filePath}`, (err, data) => {
       if (err) {
@@ -71,13 +68,11 @@ export const useCmsConfigsModule = async (app) => {
   const setCmsConfigs = async () => {
     const configs = await getConfigs();
 
-    console.log('configs', configs);
-
     await app.redis.set('test', 'test')
 
     configs.forEach((cfgForDomain) => {
       const key = `${REDIS_NAMESPACE}:${cfgForDomain.domain}`;
-      console.log(key, cfgForDomain.configJSON)
+
       app.redis.set(key, cfgForDomain.configJSON);
     });
   };
